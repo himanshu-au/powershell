@@ -26,7 +26,7 @@ foreach ($RunProfile in $RunProfileName)
     foreach ($Connector in $ConnectorName)
     {
         write-host " "
-        write-host "$Connector connector sync with runprofile $RunProfile" -ForegroundColor Cyan
+        write-host "$Connector connector sync with runprofile $RunProfile" -BackgroundColor Cyan -ForegroundColor Black
         write-host " "
         write-host "-----------------------------------------------------------" -ForegroundColor Yellow
         write-host " "
