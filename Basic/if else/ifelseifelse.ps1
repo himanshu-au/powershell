@@ -9,4 +9,4 @@ elseif ($action.trim().ToLower() -eq "stop")
     write-host "you have type $action" -ForegroundColor green}
 else
 {
-    write-host "you have not type $action" -ForegroundColor Cyan}
+    write-host "you have  type $action, please type start or stop" -ForegroundColor Cyan}
