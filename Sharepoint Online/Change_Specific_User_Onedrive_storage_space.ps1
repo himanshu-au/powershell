@@ -1,5 +1,4 @@
 ﻿<#  
-
 Change a specific user's OneDrive storage space
  
 https://docs.microsoft.com/en-us/onedrive/change-user-storage
@@ -15,15 +14,15 @@ Connect-SPOService -Url https://$orgName-admin.sharepoint.com -Credential $userC
 
 # To connect with Sharepoint Site
 
-$adminUPN="opendoorstc@danbeeinvestigations.com"
-$orgName="appriver3651016163"
+$adminUPN="user@domain.com"
+$orgName="my365"
 $userCredential = Get-Credential -UserName $adminUPN -Message "Type the password."
 Connect-SPOService -Url https://$orgName-admin.sharepoint.com -Credential $userCredential
 
 # To get the storage Quota for user
 
-$iden = "https://appriver3651016163-my.sharepoint.com/personal/ctoth_danbeeinvestigations_com"
-Get-SPOsite -Identity $iden | fl Owner, StorageQuota
+$iden = "https://my365-my.sharepoint.com/personal/user_domain_com"
+Get-SPOsite -Identity $iden | Format-list Owner, StorageQuota
 
 # To configure the storage Quota for user
 

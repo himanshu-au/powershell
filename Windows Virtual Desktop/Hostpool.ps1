@@ -5,7 +5,7 @@ $hostpooltype = 'Pooled'
 $loadbalancertype = 'BreadthFirst'
 $location = 'eastus'
 $desktopappgroupname = 'GPU_DAG'
-$signinName = 'himanshu@odtestlink.com'
+$signinName = 'abc@xyz.com'
 
 
 

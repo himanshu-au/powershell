@@ -42,14 +42,14 @@
 ###########################
 #    General Variables    #
 ###########################                 
-$AADTenantID = 'b20d1fac-9f5d-4433-ba49-0eacff46dea2'
-$SubscriptionID = '3e6d7b86-658f-4c6e-b591-9e9075e84927'
-$WVDTenantName = 'A-Tenant'
+$AADTenantID = ''
+$SubscriptionID = ''
+$WVDTenantName = ''
 $WVDTenantGroup = 'Default Tenant Group'
-$WVDHostPoolName = 'A-hostpool'
-$FirstAppGroupName = 'A-Remoteapps'
-$AzureADGlobalAdmin = 'himanshu'
-$AzureADDomainName = 'odtestlink.com'
+$WVDHostPoolName = ''
+$FirstAppGroupName = ''
+$AzureADGlobalAdmin = ''
+$AzureADDomainName = ''
 $FQDN = "$AzureADGlobalAdmin@$AzureADDomainName"
 
 
