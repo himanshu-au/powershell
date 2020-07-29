@@ -13,7 +13,7 @@ Get-MsolAccountSku
 # Now we will get particular license, for example, 
 Get-MsolAccountSku | Where-Object {$_.SkuPartNumber -eq "O365_BUSINESS_ESSENTIALS" } 
 
-# Now we will find which command to apply licese to user
+# Now we will find which command to apply licese to user.
 Get-command *license*
 
 # we find Set-MsOlUserLicense to set license to user
