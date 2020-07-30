@@ -20,4 +20,4 @@ Add-MailboxFolderPermission -Identity $identity -User $email -AccessRights Edito
 Write-Host "Now User has delegate and CanViewPrivateItems Permission for Sharedmailbox."  -BackgroundColor Cyan -ForegroundColor Black
 
 # Get-MailboxFolderPermission
-Get-MailboxFolderPermission -Identity $identity 
+Get-MailboxFolderPermission -Identity $identity
