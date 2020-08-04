@@ -61,11 +61,11 @@ $checkrgn = (Get-AzResource).ResourceGroupName
 
 # Checking ResourceGroup Name nad Action. If both condition true. then start or stop vms on that resourcegroup name based on action (start or stop)
 
-if(($checkrgn -eq $resourcegroupname) -and ($action -match "start"))
+if(($checkrgn -eq $resourcegroupname) -and ($action -eq "start"))
 {
 Start-AzHPVms -ResourceGroupName $ResourceGroupName
 }
-elseif(($checkrgn -eq $resourcegroupname) -and ($action -match "stop"))
+elseif(($checkrgn -eq $resourcegroupname) -and ($action -eq "stop"))
 {
 Stop-AzHPVms -ResourceGroupName $ResourceGroupName
 }
