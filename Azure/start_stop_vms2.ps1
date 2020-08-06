@@ -1,74 +1,40 @@
-# This is script will start or stop all VMs inside ResourceGroupName enter.
+workflow start-stop-vms {
+    param (
+        [Parameter(Mandatory=$true,HelpMessage="Enter the value for Action. Values can be either stop or start")][String]$Action,
+        [Parameter(Mandatory=$true,HelpMessage="Enter the ResourceGroup Name")][string]$ResourceGroupName
+    )
 
-# Get the connection "AzureRunAsConnection "
+    # Get the connection "AzureRunAsConnection "
 
-$connectionName = "AzureRunAsConnection"
-$servicePrincipalConnection=Get-AutomationConnection -Name $connectionName         
+    $connectionName = "AzureRunAsConnection"
+    $servicePrincipalConnection=Get-AutomationConnection -Name $connectionName         
 
-Add-AzAccount `
-        -ServicePrincipal `
-        -TenantId $servicePrincipalConnection.TenantId `
-        -ApplicationId $servicePrincipalConnection.ApplicationId `
-        -CertificateThumbprint $servicePrincipalConnection.CertificateThumbprint 
-    
-Write-Output "Successfully logged into Azure subscription using Az cmdlets..."
-
-# Define two parameters.  1) Action (Start or Stop) 2) Resource Group Name
-Param 
-(    
-    [Parameter(Mandatory=$true,HelpMessage="Enter the value for Action. Values can be either stop or start")][String]$Action,
-    [Parameter(Mandatory=$true,HelpMessage="Enter the ResourceGroup Name")][string]$ResourceGroupName
-) 
+    Add-AzAccount `
+            -ServicePrincipal `
+            -TenantId $servicePrincipalConnection.TenantId `
+            -ApplicationId $servicePrincipalConnection.ApplicationId `
+            -CertificateThumbprint $servicePrincipalConnection.CertificateThumbprint 
+        
+    Write-Output "Successfully logged into Azure subscription using Az cmdlets..."
 
 
-$jobs = @()
-$vms = Get-AzVM | Where-Object {$_.ResourceGroupName -eq $Resourcegroupname}
-$Action = $Action.Trim().tolower()
-$ResourceGroupName = $ResourceGroupName.Trim().ToLower()
-
+    $vms = Get-AzVM | Where-Object {$_.ResourceGroupName -eq $Resourcegroupname}
+    $Action = $Action.Trim().tolower()
+    $ResourceGroupName = $ResourceGroupName.Trim().ToLower()
 
 if($Action -eq "start")
     {
-    foreach ($vm in $vms)
-        {
-        $params = @($vm.name,$vm.ResourceGroupName)
-        $job = Start-Job -scriptblock { 
-            param($computername,$rgn) 
-            Start-AzVM -ResourceGroupName $rgn -name $computername 
-        } -argumentlist $params
-        $jobs = $jobs + $job
+        foreach -parallel ($vm in $vms) {
+            Start-AzVM -ResourceGroupName $vm.ResourceGroupName -Name $vm.Name
         }
-    If($jobs -ne @())
-        {
-        Write-Output "Waiting for Start jobs to complete..." 
-        Wait-Job -job $jobs
-        Get-Job | receive-job
-        }
-    Else
-        {
-        Write-Output "There were no running VMs" 
-        Get-AzVM
-        }
+    
     }
 elseif($Action -eq "stop")
     {
-    foreach ($vm in $vms)
-        {
-        $params = @($vm.name,$vm.ResourceGroupName)
-        $job = Start-Job -scriptblock {
-             param($computername,$rgn) Stop-AzVM -ResourceGroupName $rgn -name $computername -Force 
-            } -argumentlist $params
-        $jobs = $jobs + $job
-        }
-    If($jobs -ne @())
-        {
-        Write-Output "Waiting for stop jobs to complete..." 
-        Wait-Job -job $jobs
-        Get-Job | receive-job
-        }
-    Else
-        {
-        Write-Output "There were no running VMs" 
-        Get-AzVM
+    foreach -parallel ($vm in $vms) {
+        Stop-AzVM -ResourceGroupName $vm.ResourceGroupName -Name $vm.Name -Force
         }
     }
+}
+
+
