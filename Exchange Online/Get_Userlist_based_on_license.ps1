@@ -26,12 +26,12 @@ PROJECTPROFESSIONAL                         2           0            2
 ATP_ENTERPRISE                              37          0            37   
 #>
 
-
+# 1) To see the Userlist on Screen.
 $luser = Get-MsolUser
 
 $licename = Read-Host "Please Enter License Name from above list your want to get userlist: "
 
-foreach ($u in $luser)
+Foreach ($u in $luser)
 {
     $lic = $u.Licenses.accountskuid
     if ($lic -match $licename)
@@ -39,3 +39,27 @@ foreach ($u in $luser)
         write-host $u.UserPrincipalName `t $licename
     }  
 }
+
+# 2) To save the Userlist on Computer
+
+$luser = get-msoluser
+
+$licename = Read-Host "Please Enter License Name from above list you want to get userlist: "
+
+$Output =  foreach ($u in $luser)
+{
+    $lic = $u.Licenses.accountskuid
+    if ($lic -match $licename)
+    {
+        New-Object -TypeName PSObject -Property @{
+        DisplayName =  $u.DisplayName 
+        UserPrincipalName =  $u.UserPrincipalName 
+        LicenseName =  $licename 
+        } | Select-Object DisplayName, UserPrincipalName, LicenseName
+    }  
+} 
+     # save to csv use following command and user your location to save the file.  I am storing on desktop
+$Output | Export-Csv $env:USERPROFILE\Desktop\liceuserlist.csv
+
+     # save to html use following command and user your location to save the file. I am storing on desktop
+$Output | ConvertTo-Html | Out-File $env:USERPROFILE\Desktop\liceuser.htm
