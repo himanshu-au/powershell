@@ -27,7 +27,7 @@ ATP_ENTERPRISE                              37          0            37
 #>
 
 
-$luser = get-msoluser
+$luser = Get-MsolUser
 
 $licename = Read-Host "Please Enter License Name from above list your want to get userlist: "
 
