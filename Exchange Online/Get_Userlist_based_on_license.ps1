@@ -7,10 +7,10 @@ Import-Module -name MSOnline
 # Connect to MSOlservice
 Connect-MSOlservice
 
-# To get all licenses into office 365 tenancy, run following command
+# To get all the SKUs that the company owns (Office 365 tenancy) run following command.
 Get-MsolAccountSku
 
-<# for example you get following result. 
+<# Get-MsolAccountSku output: for example 
 AccountSkuId                                ActiveUnits WarningUnits ConsumedUnits
 ------------                                ----------- ------------ -------------
 WINDOWS_STORE                               25          0            0            
@@ -58,8 +58,8 @@ $Output =  foreach ($u in $luser)
         } | Select-Object DisplayName, UserPrincipalName, LicenseName
     }  
 } 
-     # save to csv use following command and user your location to save the file.  I am storing on desktop
+     # save to .csv file. Use following command and use your preferred location to save the file. 
 $Output | Export-Csv $env:USERPROFILE\Desktop\liceuserlist.csv
 
-     # save to html use following command and user your location to save the file. I am storing on desktop
+     # save to .html file. Use following command and use your preferred location to save the file. 
 $Output | ConvertTo-Html | Out-File $env:USERPROFILE\Desktop\liceuser.htm
